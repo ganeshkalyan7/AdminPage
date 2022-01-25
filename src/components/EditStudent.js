@@ -13,6 +13,16 @@ function EditStudent(props) {
     let [Email,setEmail]=useState("");
     let [Designation,setDesignation]=useState("");
 
+
+    let getData = ()=>{
+        setFirstname(props.detail.students[params.id].Firstname)
+        setLastname(props.detail.students[params.id].Lastname)
+        setEmail(props.detail.students[params.id].Email)
+        setDesignation(props.detail.students[params.id].Designation)
+    }
+    
+
+
     useEffect(()=>{
         if(params.id<props.detail.students.length)
         {
@@ -24,13 +34,7 @@ function EditStudent(props) {
         }
     },[getData,params.id,props.detail.students.length])
 
-    let getData = ()=>{
-        setFirstname(props.detail.students[params.id].Firstname)
-        setLastname(props.detail.students[params.id].Lastname)
-        setEmail(props.detail.students[params.id].Email)
-        setDesignation(props.detail.students[params.id].Designation)
-    }
-
+    
     let handleSubmit = ()=>{
         let newData = {Firstname,Lastname,Email,Designation};
         let newArray = [...props.detail.students];
