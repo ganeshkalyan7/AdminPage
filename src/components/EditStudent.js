@@ -29,7 +29,7 @@ function EditStudent(props) {
         {
             alert("Selected Students is Not available") 
         }
-    },[params.id,props.detail.students.length])
+    },[params.id,props.detail.students])
 
     
     let handleSubmit = ()=>{
