@@ -14,25 +14,22 @@ function EditStudent(props) {
     let [Designation,setDesignation]=useState("");
 
 
-    let getData = ()=>{
-        setFirstname(props.detail.students[params.id].Firstname)
-        setLastname(props.detail.students[params.id].Lastname)
-        setEmail(props.detail.students[params.id].Email)
-        setDesignation(props.detail.students[params.id].Designation)
-    }
-    
+  
 
 
     useEffect(()=>{
         if(params.id<props.detail.students.length)
         {
-            getData();
+            setFirstname(props.detail.students[params.id].Firstname)
+            setLastname(props.detail.students[params.id].Lastname)
+            setEmail(props.detail.students[params.id].Email)
+            setDesignation(props.detail.students[params.id].Designation)
         }
         else
         {
             alert("Selected Students is Not available") 
         }
-    },[getData,params.id,props.detail.students.length])
+    },[params.id,props.detail.students.length])
 
     
     let handleSubmit = ()=>{
