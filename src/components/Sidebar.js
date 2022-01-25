@@ -28,7 +28,7 @@ function Sidebar() {
         {/* Add Student */}
         <li class="nav-item">
           <Link to='add-student'>
-              <a className = 'nav-link' href="#">
+              <a className = 'nav-link' href="/#">
                   <span>AddStudents</span>
               </a>
           </Link>
@@ -38,7 +38,7 @@ function Sidebar() {
         {/* All student */}
         <li class="nav-item">
           <Link to='/all-students'>
-              <a  class="nav-link" href="#">
+              <a  class="nav-link" href="/#">
                 <span>AllStudents</span>
               </a>
           </Link>

@@ -22,7 +22,7 @@ function EditStudent(props) {
         {
             alert("Selected Students is Not available") 
         }
-    },[])
+    },[getData,params.id,props.detail.students.length])
 
     let getData = ()=>{
         setFirstname(props.detail.students[params.id].Firstname)
