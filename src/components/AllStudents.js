@@ -1,18 +1,48 @@
-import React,{useContext} from 'react'
+import React,{useEffect,useState} from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import {Link} from 'react-router-dom'
-import {StudentContext} from '../App'
-function AllStudents() {
+const url="https://61f63d922e1d7e0017fd6d21.mockapi.io/students/"
 
-    let context = useContext(StudentContext)
-    console.log(context)
+
+function AllStudents() {
+     let [students,setStudents] = useState([]);
+
+
+     useEffect(()=>{
+  getData()
+},[]);
+
+
+//getdata method
+  let getData=async()=>{
+   await fetch(url)
+   .then(response=>response.json())
+   .then( res=>{
+     console.log(res)
+     setStudents(res)
+   })
+  .catch(err=>{
+    console.log(err)
+
+   })
+ }
+
+
+
     
-    let handleDelete = (i)=>{
-        let newArray = [...context.students]
-        newArray.splice(i,1);
-        context.setStudents(newArray)
-    }
+    
+    
+ let handleDelete = async(i)=>{
+    await fetch(url+i,{
+        method:'DELETE'
+    })
+    .then(response=>response.json())
+    .then(data=>{
+        getData()
+    })
+}
+
 
     return <>
         <Table striped bordered hover variant="dark">
@@ -27,16 +57,16 @@ function AllStudents() {
             </thead>
             <tbody>
                 {
-                    context.students.map((e,i)=>{
-                        return <tr key={i}>
-                                    <td>{i+1}</td>
+                students.map((e,id)=>{
+                        return <tr key={id}>
+                                    <td>{e.id}</td>
                                     <td>{e.Firstname}</td>
                                     <td>{e.Lastname}</td>
                                     <td>{e.Email}</td>
                                     <td>{e.Designation}</td>
-                                    <td><Button variant='danger' onClick={()=>handleDelete(i)}>Delete</Button>
+                                    <td><Button variant='danger' onClick={()=>handleDelete(e.id)}>Delete</Button>
                                     <span>&nbsp; &nbsp;</span>
-                                        <Link to={`/edit-student/${i}`}>
+                                        <Link to={`/edit-student/${e.id}`}>
                                         <Button variant='primary'>Edit</Button>
                                         </Link>
                                       

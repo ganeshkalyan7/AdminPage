@@ -1,13 +1,12 @@
-import React,{useState,useEffect,useContext} from 'react';
+import React,{useState,useEffect} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useParams,useNavigate} from 'react-router-dom';
-import {StudentContext} from '../App'
+
+
 
 function EditStudent(props) {
- 
-    let context = useContext(StudentContext);
-
+    const url="https://61f63d922e1d7e0017fd6d21.mockapi.io/students/"
 
     let params = useParams();
     let navigate = useNavigate();
@@ -16,32 +15,56 @@ function EditStudent(props) {
     let [Email,setEmail]=useState("");
     let [Designation,setDesignation]=useState("");
 
-
-
-    useEffect(()=>{
-        if(params.id<context.students.length)
-        {
-            setFirstname(context.students[params.id].Firstname)
-            setLastname(context.students[params.id].Lastname)
-            setEmail(context.students[params.id].Email)
-            setDesignation(context.students[params.id].Designation)
+  //requesting for api in json formate
+    let getData = async()=>{
+        await fetch(url+params.id)
+        .then(response => response.json())
+        .then(res=>{
+            console.log(res)
+            setFirstname(res.Firstname);
+            setLastname(res.Lastname);
+            setEmail(res.Email);
+            setDesignation(res.Designation)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
         }
-        else
-        {
-            alert("Selected Students is Not available") 
-        }
-    },[params.id,context.students])
+
+    
+        useEffect(()=>{
+        getData()
+       
+        },[])
+
 
    
+    //editing functionality
+    let handleSubmit =async()=>{
+        await fetch(url+params.id,{
+            method:'PUT',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                Firstname,
+                Lastname,
+                Email,
+                Designation,
+         })
 
-    let handleSubmit = ()=>{
-        let newData = {Firstname,Lastname,Email,Designation};
-        let newArray = [...context.students];
-        newArray.splice(params.id,1,newData)
-        context.setStudents(newArray)
-        navigate("/all-students")
+      })
+         .then(response=>response.json())
 
-    }
+          .then(res=>{
+              console.log(res)
+           navigate("/all-students")
+           })
+
+        .catch(err=>{
+            console.log(err)
+        })
+ }
 
 
     return (

@@ -1,27 +1,43 @@
-import React,{useContext,useState} from 'react';
+import React,{useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useNavigate} from 'react-router-dom';
-import {StudentContext} from '../App'
+
 
 function AddStudents(props) {
+   
 
-    let context = useContext(StudentContext)
+  
 
     let navigate = useNavigate();
     let [Firstname,setFirstname]=useState("");
     let [Lastname,setLastname]=useState("");
     let [Email,setEmail]=useState("");
     let [Designation,setDesignation]=useState("");
+    const url = "https://61ee1f7ed593d20017dbac50.mockapi.io/students/"
     
 
-    let handleSubmit = ()=>{
-        let newData = {Firstname,Lastname,Email,Designation};
-        let newArray = [...context.students];
-        newArray.push(newData);
-        context.setStudents(newArray)
-
-        navigate("/all-students")
+    let handleSubmit = async()=>{
+        await fetch(url,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                Firstname,
+                Lastname,
+                Email,
+                Designation
+            })
+        })
+        .then(response=>response.json())
+        .then(res=>{
+            console.log(res)
+            navigate("/all-students")
+        })
+        .catch(err=>{
+            console.log(err)
+        })
 
     }
 
