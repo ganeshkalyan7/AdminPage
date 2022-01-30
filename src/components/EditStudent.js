@@ -23,7 +23,7 @@ function EditStudent(props) {
         setEmail(context.students[params.id].Email)
         setDesignation(context.students[params.id].Designation)
     }
-    
+
 
     useEffect(()=>{
         if(params.id<context.students.length)
@@ -34,7 +34,7 @@ function EditStudent(props) {
         {
             alert("Selected Students is Not available") 
         }
-    },[context.students.length,getData])
+    },[params.id,context.students.length,getData])
 
    
 
