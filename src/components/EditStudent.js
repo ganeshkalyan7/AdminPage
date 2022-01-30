@@ -25,7 +25,7 @@ function EditStudent(props) {
         {
             alert("Selected Students is Not available") 
         }
-    },[params.id,props.detail.students])
+    },[context.students.length,getData])
 
     let getData = ()=>{
         setFirstname(context.students[params.id].Firstname)
