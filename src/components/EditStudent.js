@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useParams,useNavigate} from 'react-router-dom';
+import axios from "axios"
 
 
 
@@ -17,54 +18,49 @@ function EditStudent(props) {
 
   //requesting for api in json formate
     let getData = async()=>{
-        await fetch(url+params.id)
-        .then(response => response.json())
-        .then(res=>{
-            console.log(res)
-            setFirstname(res.Firstname);
-            setLastname(res.Lastname);
-            setEmail(res.Email);
-            setDesignation(res.Designation)
-        })
-        .catch(err=>{
+        try{
+            let response=await axios.get(url+params.id)
+            console.log(response)
+            setFirstname=(response.data.Firstname)
+            setLastname=(response.data.Lastname)
+            setEmail=(response.data.Email)
+            setDesignation=(response.data.data)
+        }
+       
+        catch(err){
             console.log(err)
-        })
+        }
         }
 
     
-        useEffect(()=>{
-        getData()
        
-        },[])
 
-
-   
-    //editing functionality
+   //editing functionality
     let handleSubmit =async()=>{
-        await fetch(url+params.id,{
-            method:'PUT',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
+        try{
+            let response=await axios.put(url+params.id,{
                 Firstname,
                 Lastname,
                 Email,
-                Designation,
-         })
+                Designation
 
-      })
-         .then(response=>response.json())
+            })
+            console.log(response)
+            if(response.status===200){
+                navigate('/all-students')
+            }
+        }
+      
 
-          .then(res=>{
-              console.log(res)
-           navigate("/all-students")
-           })
-
-        .catch(err=>{
+        catch(err){
             console.log(err)
-        })
+        }
  }
+
+ useEffect(()=>{
+    getData()
+   
+    },[])
 
 
     return (

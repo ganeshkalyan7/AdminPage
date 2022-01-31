@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Dashboard(props) {
-    console.log(props)
+    
     return (
         <div>
             <div id="content-wrapper" className="d-flex flex-column">

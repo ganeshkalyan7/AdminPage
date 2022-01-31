@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useNavigate} from 'react-router-dom';
+import axios from "axios"
 
 
 function AddStudents(props) {
@@ -18,26 +19,22 @@ function AddStudents(props) {
     
 
     let handleSubmit = async()=>{
-        await fetch(url,{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
+        try{
+            let response=await axios.post(url,{
                 Firstname,
                 Lastname,
                 Email,
                 Designation
-            })
-        })
-        .then(response=>response.json())
-        .then(res=>{
-            console.log(res)
-            navigate("/all-students")
-        })
-        .catch(err=>{
+             })
+             console.log(response)
+             if(response.status===201){
+                 navigate('/all-students')
+             }
+        }
+       
+        catch(err){
             console.log(err)
-        })
+        }
 
     }
 

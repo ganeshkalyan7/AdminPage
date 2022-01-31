@@ -1,31 +1,37 @@
 import React,{useEffect,useState} from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
-import {Link} from 'react-router-dom'
-const url="https://61f63d922e1d7e0017fd6d21.mockapi.io/students/"
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+const url="https://61f63d922e1d7e0017fd6d21.mockapi.io/students/";
 
 
 function AllStudents() {
      let [students,setStudents] = useState([]);
 
 
-     useEffect(()=>{
-  getData()
-},[]);
+
 
 
 //getdata method
   let getData=async()=>{
-   await fetch(url)
-   .then(response=>response.json())
-   .then( res=>{
-     console.log(res)
-     setStudents(res)
-   })
-  .catch(err=>{
+      try{
+          let response=await axios.get(url)
+          console.log(response)
+          if(response.status===200){
+            setStudents(response.data)
+         }
+         else{
+             alert("internet server error!")
+         }
+        
+
+      }
+  
+  catch(err){
     console.log(err)
 
-   })
+   }
  }
 
 
@@ -34,14 +40,21 @@ function AllStudents() {
     
     
  let handleDelete = async(i)=>{
-    await fetch(url+i,{
-        method:'DELETE'
-    })
-    .then(response=>response.json())
-    .then(data=>{
-        getData()
-    })
+     try{
+         let response=await axios.delete(url+i)
+         console.log(response.data)
+         getData()
+         console.log(getData())
+     }
+     catch(err){
+         console.log(err)
+     }
+    
 }
+
+useEffect(()=>{
+    getData()
+  },[]);
 
 
     return <>
